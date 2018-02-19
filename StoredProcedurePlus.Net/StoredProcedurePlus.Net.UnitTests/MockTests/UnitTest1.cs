@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using StoredProcedurePlus.Net.EntityManagers;
 using StoredProcedurePlus.Net.UnitTestEntities.StoredProcedures;
 using StoredProcedurePlus.Net.UnitTestEntities;
+using StoredProcedurePlus.Net.StoredProcedureManagers;
 
 namespace StoredProcedurePlus.Net.UnitTests.MockTests
 {
@@ -20,16 +20,16 @@ namespace StoredProcedurePlus.Net.UnitTests.MockTests
             Assert.IsTrue(p.IsEnabled);
         }
 
-        private int Sp_OnMockExecution(IDataEntityAdapter input)
+        private void Sp_OnMockExecution(object sender, MockEventArgs args)
         {
-            long id = input.GetLong(0);
+            long id = args.Input.GetLong(0);
             if (id > 0)
             {
-                input.SetBool(1, true);
-                //input.SetInt(2, 19);
+                args.Input.SetBool(args.Input.GetOrdinal("IsEnabled"), true);
+                args.Input.SetInt(args.Input.GetOrdinal("RowChanged"), 19);
             }
 
-            return 1;
+            args.Result = 1;
         }
     }
 }

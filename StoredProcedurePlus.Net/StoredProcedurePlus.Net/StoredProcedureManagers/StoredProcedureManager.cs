@@ -1,4 +1,5 @@
 ﻿using StoredProcedurePlus.Net.EntityManagers;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -7,7 +8,18 @@ using System.Linq;
 
 namespace StoredProcedurePlus.Net.StoredProcedureManagers
 {
-    public delegate int MockExecutionHandler(IDataEntityAdapter input);
+    public class MockEventArgs:EventArgs
+    {
+        public MockEventArgs(IDataEntityAdapter input):base()
+        {
+            Input = input;
+        }
+
+        public IDataEntityAdapter Input { get; private set; }
+        public int Result { get; set; }
+    }
+
+    public delegate void MockExecutionHandler(object sender, MockEventArgs e);
 
     public abstract class StoredProcedureManager<S> where S : class, new()
     {
@@ -93,7 +105,12 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
 
                         if (Configuration.Mock)
                         {
-                            Result = OnMockExecution?.Invoke(adapter) ?? 0;
+                            if (OnMockExecution != null)
+                            {
+                                MockEventArgs Args = new MockEventArgs(adapter);
+                                OnMockExecution?.Invoke(this, Args);
+                                Result = Args.Result;
+                            }
                         }
                         else
                         {
@@ -142,7 +159,12 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
                     {
                         if (Configuration.Mock)
                         {
-                            Result = OnMockExecution?.Invoke(adapter)??0;
+                            if (OnMockExecution != null)
+                            {
+                                MockEventArgs Args = new MockEventArgs(adapter);
+                                OnMockExecution?.Invoke(this, Args);
+                                Result = Args.Result;
+                            }
                         }
                         else
                         {
@@ -181,7 +203,12 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
 
                         if (Configuration.Mock)
                         {
-                            Result = OnMockExecution?.Invoke(adapter) ?? 0;
+                            if (OnMockExecution != null)
+                            {
+                                MockEventArgs Args = new MockEventArgs(adapter);
+                                OnMockExecution?.Invoke(this, Args);
+                                Result = Args.Result;
+                            }
                         }
                         else
                         {
@@ -230,7 +257,12 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
                     {
                         if (Configuration.Mock)
                         {
-                            Result = OnMockExecution?.Invoke(adapter) ?? 0;
+                            if (OnMockExecution != null)
+                            {
+                                MockEventArgs Args = new MockEventArgs(adapter);
+                                OnMockExecution?.Invoke(this, Args);
+                                Result = Args.Result;
+                            }
                         }
                         else
                         {
