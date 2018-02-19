@@ -41,10 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AllTypeParams.cs" />
     <Compile Include="ResourceSummary.cs" />
     <Compile Include="Resource.cs" />
     <Compile Include="School.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StoredProcedures\MockSp.cs" />
     <Compile Include="StoredProcedures\MyFirstStoredPocedure.cs" />
     <Compile Include="StoredProcedures\SpResourceSummary.cs" />
     <Compile Include="StoredProcedures\SpResourceSummary2.cs" />

@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="DapperTests\Class1.cs" />
     <Compile Include="EFCodeFirstSPAccess\UnitTest1.cs" />
+    <Compile Include="MockTests\UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StoredProcedureManagers\StoredProcedureManagerTests.cs" />
   </ItemGroup>

@@ -2,7 +2,7 @@
 
 namespace StoredProcedurePlus.Net.EntityManagers
 {
-    interface IDataEntityAdapter
+    public interface IDataEntityAdapter
     {
         int FieldCount { get; }
         string GetName(int ordinal);

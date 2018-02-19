@@ -65,30 +65,70 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
             {
                 if (!Configurations.Exists(v=>v.PropertyName == Properties[i].Name))
                 {
-                    if (Properties[i].PropertyType == typeof(string))
+                    if (Properties[i].PropertyType == typeof(bool))
                     {
                         LambdaExpression l = BuildExpression(SourceType, Properties[i]);
-                        Maps((Expression<Func<S, string>>)l);
+                        Maps((Expression<Func<S, bool>>)l);
+                    }
+                    if (Properties[i].PropertyType == typeof(bool?))
+                    {
+                        LambdaExpression l = BuildExpression(SourceType, Properties[i]);
+                        Maps((Expression<Func<S, bool?>>)l);
                     }
                     if (Properties[i].PropertyType == typeof(int))
                     {
                         LambdaExpression l = BuildExpression(SourceType, Properties[i]);
                         Maps((Expression<Func<S, int>>)l);
                     }
+                    if (Properties[i].PropertyType == typeof(int?))
+                    {
+                        LambdaExpression l = BuildExpression(SourceType, Properties[i]);
+                        Maps((Expression<Func<S, int?>>)l);
+                    }
+                    if (Properties[i].PropertyType == typeof(long))
+                    {
+                        LambdaExpression l = BuildExpression(SourceType, Properties[i]);
+                        Maps((Expression<Func<S, long>>)l);
+                    }
+                    if (Properties[i].PropertyType == typeof(long?))
+                    {
+                        LambdaExpression l = BuildExpression(SourceType, Properties[i]);
+                        Maps((Expression<Func<S, long?>>)l);
+                    }
                     if (Properties[i].PropertyType == typeof(decimal))
                     {
                         LambdaExpression l = BuildExpression(SourceType, Properties[i]);
                         Maps((Expression<Func<S, decimal>>)l);
+                    }
+                    if (Properties[i].PropertyType == typeof(decimal?))
+                    {
+                        LambdaExpression l = BuildExpression(SourceType, Properties[i]);
+                        Maps((Expression<Func<S, decimal?>>)l);
                     }
                     if (Properties[i].PropertyType == typeof(double))
                     {
                         LambdaExpression l = BuildExpression(SourceType, Properties[i]);
                         Maps((Expression<Func<S, double>>)l);
                     }
+                    if (Properties[i].PropertyType == typeof(double?))
+                    {
+                        LambdaExpression l = BuildExpression(SourceType, Properties[i]);
+                        Maps((Expression<Func<S, double?>>)l);
+                    }
                     if (Properties[i].PropertyType == typeof(DateTime))
                     {
                         LambdaExpression l = BuildExpression(SourceType, Properties[i]);
                         Maps((Expression<Func<S, DateTime>>)l);
+                    }
+                    if (Properties[i].PropertyType == typeof(DateTime?))
+                    {
+                        LambdaExpression l = BuildExpression(SourceType, Properties[i]);
+                        Maps((Expression<Func<S, DateTime?>>)l);
+                    }
+                    if (Properties[i].PropertyType == typeof(string))
+                    {
+                        LambdaExpression l = BuildExpression(SourceType, Properties[i]);
+                        Maps((Expression<Func<S, string>>)l);
                     }
                 }
             }
@@ -156,6 +196,31 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
                         Configuration[Instance] = fromEntity.GetBool(Ordinal);
                     }
                 }
+                else if (configuration.DataType == typeof(short))
+                {
+                    if (fromEntity.IsDBNull(Ordinal))
+                    {
+                        Error.CannotSetNullToNotNullableShortProperty(configuration.PropertyName);
+                    }
+                    else
+                    {
+                        ShortTypeConfiguration<S> Configuration = configuration as ShortTypeConfiguration<S>;
+                        Configuration[Instance] = fromEntity.GetShort(Ordinal);
+                    }
+                }
+                else if (configuration.DataType == typeof(short?))
+                {
+                    if (fromEntity.IsDBNull(Ordinal))
+                    {
+                        ShortTypeNullableConfiguration<S> Configuration = configuration as ShortTypeNullableConfiguration<S>;
+                        Configuration[Instance] = null;
+                    }
+                    else
+                    {
+                        ShortTypeNullableConfiguration<S> Configuration = configuration as ShortTypeNullableConfiguration<S>;
+                        Configuration[Instance] = fromEntity.GetShort(Ordinal);
+                    }
+                }
                 else if (configuration.DataType == typeof(int))
                 {
                     if (fromEntity.IsDBNull(Ordinal))
@@ -204,37 +269,6 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
                     {
                         LongTypeNullableConfiguration<S> Configuration = configuration as LongTypeNullableConfiguration<S>;
                         Configuration[Instance] = fromEntity.GetLong(Ordinal);
-                    }
-                }
-                else if (configuration.DataType == typeof(string))
-                {
-                    if (fromEntity.IsDBNull(Ordinal))
-                    {
-                        StringTypeConfiguration<S> Configuration = configuration as StringTypeConfiguration<S>;
-
-                        if (Configuration.IsPattern)
-                        {
-                            StringTypePatternConfiguration<S> PatternEnabledConfiguration = configuration as StringTypePatternConfiguration<S>;
-                            PatternEnabledConfiguration[Instance] = null;
-                        }
-                        else
-                        {
-                            Configuration[Instance] = null;
-                        }
-                    }
-                    else
-                    {
-                        StringTypeConfiguration<S> Configuration = configuration as StringTypeConfiguration<S>;
-
-                        if (Configuration.IsPattern)
-                        {
-                            StringTypePatternConfiguration<S> PatternEnabledConfiguration = configuration as StringTypePatternConfiguration<S>;
-                            PatternEnabledConfiguration[Instance] = fromEntity.GetString(Ordinal);
-                        }
-                        else
-                        {
-                            Configuration[Instance] = fromEntity.GetString(Ordinal);
-                        }                        
                     }
                 }
                 else if (configuration.DataType == typeof(double))
@@ -312,6 +346,37 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
                         Configuration[Instance] = fromEntity.GetDate(Ordinal);
                     }
                 }
+                else if (configuration.DataType == typeof(string))
+                {
+                    if (fromEntity.IsDBNull(Ordinal))
+                    {
+                        StringTypeConfiguration<S> Configuration = configuration as StringTypeConfiguration<S>;
+
+                        if (Configuration.IsPattern)
+                        {
+                            StringTypePatternConfiguration<S> PatternEnabledConfiguration = configuration as StringTypePatternConfiguration<S>;
+                            PatternEnabledConfiguration[Instance] = null;
+                        }
+                        else
+                        {
+                            Configuration[Instance] = null;
+                        }
+                    }
+                    else
+                    {
+                        StringTypeConfiguration<S> Configuration = configuration as StringTypeConfiguration<S>;
+
+                        if (Configuration.IsPattern)
+                        {
+                            StringTypePatternConfiguration<S> PatternEnabledConfiguration = configuration as StringTypePatternConfiguration<S>;
+                            PatternEnabledConfiguration[Instance] = fromEntity.GetString(Ordinal);
+                        }
+                        else
+                        {
+                            Configuration[Instance] = fromEntity.GetString(Ordinal);
+                        }
+                    }
+                }
             }
         }
 
@@ -336,6 +401,16 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
                     BoolTypeNullableConfiguration<S> Configuration = configuration as BoolTypeNullableConfiguration<S>;
                     toEntity.SetBool(Ordinal, Configuration[Instance]);
                 }
+                else if (configuration.DataType == typeof(short))
+                {
+                    ShortTypeConfiguration<S> Configuration = configuration as ShortTypeConfiguration<S>;
+                    toEntity.SetShort(Ordinal, Configuration[Instance]);
+                }
+                else if (configuration.DataType == typeof(short?))
+                {
+                    ShortTypeNullableConfiguration<S> Configuration = configuration as ShortTypeNullableConfiguration<S>;
+                    toEntity.SetShort(Ordinal, Configuration[Instance]);
+                }
                 else if (configuration.DataType == typeof(int))
                 {
                     IntegerTypeConfiguration<S> Configuration = configuration as IntegerTypeConfiguration<S>;
@@ -355,11 +430,6 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
                 {
                     LongTypeNullableConfiguration<S> Configuration = configuration as LongTypeNullableConfiguration<S>;
                     toEntity.SetLong(Ordinal, Configuration[Instance]);
-                }
-                else if (configuration.DataType == typeof(string))
-                {
-                    StringTypeConfiguration<S> Configuration = configuration as StringTypeConfiguration<S>;
-                    toEntity.SetString(Ordinal, Configuration[Instance]);
                 }
                 else if (configuration.DataType == typeof(double))
                 {
@@ -391,6 +461,11 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
                     DateTimeTypeNullableConfiguration<S> Configuration = configuration as DateTimeTypeNullableConfiguration<S>;
                     toEntity.SetDateTime(Ordinal, Configuration[Instance]);
                 }
+                else if (configuration.DataType == typeof(string))
+                {
+                    StringTypeConfiguration<S> Configuration = configuration as StringTypeConfiguration<S>;
+                    toEntity.SetString(Ordinal, Configuration[Instance]);
+                }
             }
         }
 
@@ -406,6 +481,18 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
         public BoolTypeNullableConfiguration<S> Maps(Expression<Func<S, bool?>> memberSelector)
         {
             BoolTypeNullableConfiguration<S> Configuration = new BoolTypeNullableConfiguration<S>(memberSelector);
+            AddMapping(Configuration);
+            return Configuration;
+        }
+        public ShortTypeConfiguration<S> Maps(Expression<Func<S, short>> memberSelector)
+        {
+            ShortTypeConfiguration<S> Configuration = new ShortTypeConfiguration<S>(memberSelector);
+            AddMapping(Configuration);
+            return Configuration;
+        }
+        public ShortTypeNullableConfiguration<S> Maps(Expression<Func<S, short?>> memberSelector)
+        {
+            ShortTypeNullableConfiguration<S> Configuration = new ShortTypeNullableConfiguration<S>(memberSelector);
             AddMapping(Configuration);
             return Configuration;
         }
@@ -433,42 +520,48 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
             AddMapping(Configuration);
             return Configuration;
         }
-
-        public StringTypeConfiguration<S> Maps(Expression<Func<S, string>> memberSelector)
-        {
-            StringTypeConfiguration<S> Configuration = new StringTypeConfiguration<S>(memberSelector);
-            AddMapping(Configuration);
-            return Configuration;
-        }
-
         public DecimalTypeConfiguration<S> Maps(Expression<Func<S, decimal>> memberSelector)
         {
             DecimalTypeConfiguration<S> Configuration = new DecimalTypeConfiguration<S>(memberSelector);
             AddMapping(Configuration);
             return Configuration;
         }
-
+        public DecimalTypeNullableConfiguration<S> Maps(Expression<Func<S, decimal?>> memberSelector)
+        {
+            DecimalTypeNullableConfiguration<S> Configuration = new DecimalTypeNullableConfiguration<S>(memberSelector);
+            AddMapping(Configuration);
+            return Configuration;
+        }
         public DoubleTypeConfiguration<S> Maps(Expression<Func<S, double>> memberSelector)
         {
             DoubleTypeConfiguration<S> Configuration = new DoubleTypeConfiguration<S>(memberSelector);
             AddMapping(Configuration);
             return Configuration;
         }
-
+        public DoubleTypeNullableConfiguration<S> Maps(Expression<Func<S, double?>> memberSelector)
+        {
+            DoubleTypeNullableConfiguration<S> Configuration = new DoubleTypeNullableConfiguration<S>(memberSelector);
+            AddMapping(Configuration);
+            return Configuration;
+        }
         public DateTimeTypeConfiguration<S> Maps(Expression<Func<S, DateTime>> memberSelector)
         {
             DateTimeTypeConfiguration<S> Configuration = new DateTimeTypeConfiguration<S>(memberSelector);
             AddMapping(Configuration);
             return Configuration;
         }
-
         public DateTimeTypeNullableConfiguration<S> Maps(Expression<Func<S, DateTime?>> memberSelector)
         {
             DateTimeTypeNullableConfiguration<S> Configuration = new DateTimeTypeNullableConfiguration<S>(memberSelector);
             AddMapping(Configuration);
             return Configuration;
         }
-
+        public StringTypeConfiguration<S> Maps(Expression<Func<S, string>> memberSelector)
+        {
+            StringTypeConfiguration<S> Configuration = new StringTypeConfiguration<S>(memberSelector);
+            AddMapping(Configuration);
+            return Configuration;
+        }
         #endregion
     }
 }

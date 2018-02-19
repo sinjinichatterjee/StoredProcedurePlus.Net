@@ -7,6 +7,8 @@ using System.Linq;
 
 namespace StoredProcedurePlus.Net.StoredProcedureManagers
 {
+    public delegate int MockExecutionHandler(IDataEntityAdapter input);
+
     public abstract class StoredProcedureManager<S> where S : class, new()
     {
         #region Restricted 
@@ -48,6 +50,10 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
 
         #endregion
 
+        #region Public Events 
+        public event MockExecutionHandler OnMockExecution = null;
+        #endregion
+
         #region Public Methods
 
         [SuppressMessage("Microsoft.Security", "CA2100", Justification = "The command text is not user given")]
@@ -55,9 +61,10 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
         {
             this.Initialize();
 
-            IDbCommand Command = new SqlCommand(Configuration.ProcedureName);
-
-            Command.CommandType = CommandType.StoredProcedure;
+            IDbCommand Command = new SqlCommand(Configuration.ProcedureName)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
 
             CommandBehavior Behavior = CommandBehavior.Default;
 
@@ -69,67 +76,86 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
                 {
                     scope.SetConnectionProvider(Configuration.Connection);
 
-                    Command.Connection = scope.Create();
+                    DbParameterEntityAdapter adapter = (DbParameterEntityAdapter)Configuration.Input.GetAsDbParameters();
 
-                    if (Command.Connection != null)
+                    for (int i = 0; i < adapter.FieldCount; i++)
                     {
-                        DbParameterEntityAdapter adapter = (DbParameterEntityAdapter)Configuration.Input.GetAsDbParameters();
+                        Command.Parameters.Add(adapter[i]);
+                    }
 
-                        for (int i = 0; i < adapter.FieldCount; i++)
+                    Configuration.Input.Prepare(adapter);
+
+                    Configuration.Input.Get(input, adapter);
+
+                    if (Configuration.OutputSets.Any())
+                    {
+                        int ResultSetIndex = 0;
+
+                        if (Configuration.Mock)
                         {
-                            Command.Parameters.Add(adapter[i]);
+                            Result = OnMockExecution?.Invoke(adapter) ?? 0;
                         }
-
-                        Configuration.Input.Prepare(adapter);
-
-                        Configuration.Input.Get(input, adapter);
-
-                        if (Configuration.OutputSets.Any())
+                        else
                         {
-                            int ResultSetIndex = 0;
+                            Command.Connection = scope.Create();
 
-                            using (IDataReader DataReader = Command.ExecuteReader(Behavior))
+                            if (Command.Connection != null)
                             {
-                                do
+                                using (IDataReader DataReader = Command.ExecuteReader(Behavior))
                                 {
-                                    ResultSet.Add(new List<object>());
-
-                                    if (DataReader.Read())
+                                    do
                                     {
-                                        NonPrimitiveEntityConfiguration c = Configuration.OutputSets[ResultSetIndex];
+                                        ResultSet.Add(new List<object>());
 
-                                        DbDataEntityAdapter EntityAdapter = c.GetNewDataAdapter(DataReader);
-
-                                        c.Prepare(EntityAdapter);
-
-                                        object Entity = Configuration.OutputSets[ResultSetIndex].CreateNewDefaultInstance();
-
-                                        c.Set(EntityAdapter, Entity);
-
-                                        ResultSet[ResultSetIndex].Add(Entity);
-
-                                        while (DataReader.Read())
+                                        if (DataReader.Read())
                                         {
-                                            Entity = Configuration.OutputSets[ResultSetIndex].CreateNewDefaultInstance();
+                                            NonPrimitiveEntityConfiguration c = Configuration.OutputSets[ResultSetIndex];
+
+                                            DbDataEntityAdapter EntityAdapter = c.GetNewDataAdapter(DataReader);
+
+                                            c.Prepare(EntityAdapter);
+
+                                            object Entity = Configuration.OutputSets[ResultSetIndex].CreateNewDefaultInstance();
 
                                             c.Set(EntityAdapter, Entity);
 
                                             ResultSet[ResultSetIndex].Add(Entity);
+
+                                            while (DataReader.Read())
+                                            {
+                                                Entity = Configuration.OutputSets[ResultSetIndex].CreateNewDefaultInstance();
+
+                                                c.Set(EntityAdapter, Entity);
+
+                                                ResultSet[ResultSetIndex].Add(Entity);
+                                            }
                                         }
-                                    }
 
-                                    ResultSetIndex++;
+                                        ResultSetIndex++;
 
-                                } while (DataReader.NextResult());
+                                    } while (DataReader.NextResult());
+                                }
                             }
+                        }
+                    }
+                    else
+                    {
+                        if (Configuration.Mock)
+                        {
+                            Result = OnMockExecution?.Invoke(adapter)??0;
                         }
                         else
                         {
-                            Result = Command.ExecuteNonQuery();
-                        }
+                            Command.Connection = scope.Create();
 
-                        Configuration.Input.Set(adapter, input);
+                            if (Command.Connection != null)
+                            {
+                                Result = Command.ExecuteNonQuery();
+                            }
+                        }
                     }
+
+                    Configuration.Input.Set(adapter, input);
                 }
             }
             else
@@ -138,67 +164,86 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
                 {
                     scope.SetConnectionProvider(Configuration.Connection);
 
-                    Command.Connection = scope.Create();
+                    DbParameterEntityAdapter adapter = (DbParameterEntityAdapter)Configuration.Input.GetAsDbParameters();
 
-                    if (Command.Connection != null)
+                    for (int i = 0; i < adapter.FieldCount; i++)
                     {
-                        DbParameterEntityAdapter adapter = (DbParameterEntityAdapter)Configuration.Input.GetAsDbParameters();
+                        Command.Parameters.Add(adapter[i]);
+                    }                        
 
-                        for (int i = 0; i < adapter.FieldCount; i++)
+                    Configuration.Input.Prepare(adapter);
+
+                    Configuration.Input.Get(input, adapter);
+
+                    if (Configuration.OutputSets.Any())
+                    {
+                        int ResultSetIndex = 0;
+
+                        if (Configuration.Mock)
                         {
-                            Command.Parameters.Add(adapter[i]);
-                        }                        
-
-                        Configuration.Input.Prepare(adapter);
-
-                        Configuration.Input.Get(input, adapter);
-
-                        if (Configuration.OutputSets.Any())
+                            Result = OnMockExecution?.Invoke(adapter) ?? 0;
+                        }
+                        else
                         {
-                            int ResultSetIndex = 0;
+                            Command.Connection = scope.Create();
 
-                            using (IDataReader DataReader = Command.ExecuteReader(Behavior))
+                            if (Command.Connection != null)
                             {
-                                do
+                                using (IDataReader DataReader = Command.ExecuteReader(Behavior))
                                 {
-                                    ResultSet.Add(new List<object>());
-
-                                    if (DataReader.Read())
+                                    do
                                     {
-                                        NonPrimitiveEntityConfiguration c = Configuration.OutputSets[ResultSetIndex];
+                                        ResultSet.Add(new List<object>());
 
-                                        DbDataEntityAdapter EntityAdapter = c.GetNewDataAdapter(DataReader);
-
-                                        c.Prepare(EntityAdapter);
-
-                                        object Entity = Configuration.OutputSets[ResultSetIndex].CreateNewDefaultInstance();
-
-                                        c.Set(EntityAdapter, Entity);
-
-                                        ResultSet[ResultSetIndex].Add(Entity);
-
-                                        while (DataReader.Read())
+                                        if (DataReader.Read())
                                         {
-                                            Entity = Configuration.OutputSets[ResultSetIndex].CreateNewDefaultInstance();
+                                            NonPrimitiveEntityConfiguration c = Configuration.OutputSets[ResultSetIndex];
+
+                                            DbDataEntityAdapter EntityAdapter = c.GetNewDataAdapter(DataReader);
+
+                                            c.Prepare(EntityAdapter);
+
+                                            object Entity = Configuration.OutputSets[ResultSetIndex].CreateNewDefaultInstance();
 
                                             c.Set(EntityAdapter, Entity);
 
                                             ResultSet[ResultSetIndex].Add(Entity);
+
+                                            while (DataReader.Read())
+                                            {
+                                                Entity = Configuration.OutputSets[ResultSetIndex].CreateNewDefaultInstance();
+
+                                                c.Set(EntityAdapter, Entity);
+
+                                                ResultSet[ResultSetIndex].Add(Entity);
+                                            }
                                         }
-                                    }
 
-                                    ResultSetIndex++;
+                                        ResultSetIndex++;
 
-                                } while (DataReader.NextResult());
+                                    } while (DataReader.NextResult());
+                                }
                             }
+                        }
+                    }
+                    else
+                    {
+                        if (Configuration.Mock)
+                        {
+                            Result = OnMockExecution?.Invoke(adapter) ?? 0;
                         }
                         else
                         {
-                            Result = Command.ExecuteNonQuery();
-                        }
+                            Command.Connection = scope.Create();
 
-                        Configuration.Input.Set(adapter, input);
+                            if (Command.Connection != null)
+                            {
+                                Result = Command.ExecuteNonQuery();
+                            }
+                        }
                     }
+
+                    Configuration.Input.Set(adapter, input);
                 }
                 catch
                 {

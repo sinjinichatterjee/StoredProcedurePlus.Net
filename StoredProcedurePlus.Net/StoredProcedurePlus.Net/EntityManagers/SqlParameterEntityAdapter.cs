@@ -70,6 +70,7 @@ namespace StoredProcedurePlus.Net.EntityManagers
 
         public bool GetBool(int ordinal)
         {
+            //return true;
             return bool.Parse(Parameters[ordinal].Item2.Value.ToString());
         }
 
@@ -80,6 +81,7 @@ namespace StoredProcedurePlus.Net.EntityManagers
 
         public int GetInt(int ordinal)
         {
+            //return 21;
             return int.Parse(Parameters[ordinal].Item2.Value.ToString());
         }
 
