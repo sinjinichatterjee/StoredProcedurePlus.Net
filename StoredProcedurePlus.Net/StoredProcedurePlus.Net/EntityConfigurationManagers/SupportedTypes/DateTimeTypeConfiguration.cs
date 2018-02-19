@@ -88,6 +88,5 @@ namespace StoredProcedurePlus.Net.EntityConfigurationManagers.SupportedTypes
             AllowedDateTimeFormat = value;
             return this;
         }
-
     }
 }

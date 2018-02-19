@@ -23,20 +23,22 @@ namespace StoredProcedurePlus.Net.EntityManagers
         {
             return Data.GetOrdinal(name);
         }
+
         public bool IsDBNull(int ordinal)
         {
             return Data.IsDBNull(ordinal);
         }
 
+        #region Getters
 
-        public decimal GetDecimal(int ordinal)
+        public bool GetBool(int ordinal)
         {
-            return Data.GetDecimal(ordinal);
+            return Data.GetBoolean(ordinal);
         }
 
-        public double GetDouble(int ordinal)
+        public short GetShort(int ordinal)
         {
-            return Data.GetDouble(ordinal);
+            return Data.GetInt16(ordinal);
         }
 
         public int GetInt(int ordinal)
@@ -49,14 +51,14 @@ namespace StoredProcedurePlus.Net.EntityManagers
             return Data.GetInt64(ordinal);
         }
 
-        public short GetShort(int ordinal)
+        public decimal GetDecimal(int ordinal)
         {
-            return Data.GetInt16(ordinal);
+            return Data.GetDecimal(ordinal);
         }
 
-        public string GetString(int ordinal)
+        public double GetDouble(int ordinal)
         {
-            return Data.GetString(ordinal);
+            return Data.GetDouble(ordinal);
         }
 
         public DateTime GetDate(int ordinal)
@@ -64,22 +66,21 @@ namespace StoredProcedurePlus.Net.EntityManagers
             return Data.GetDateTime(ordinal);
         }
 
-        public void SetDecimal(int ordinal, decimal value)
+        public string GetString(int ordinal)
+        {
+            return Data.GetString(ordinal);
+        }
+
+        #endregion
+
+        #region setters
+
+        public void SetBool(int ordinal, bool value)
         {
             throw new NotImplementedException();
         }
 
-        public void SetDouble(int ordinal, double value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetInt(int ordinal, int value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetLong(int ordinal, long value)
+        public void SetBool(int ordinal, bool? value)
         {
             throw new NotImplementedException();
         }
@@ -89,7 +90,46 @@ namespace StoredProcedurePlus.Net.EntityManagers
             throw new NotImplementedException();
         }
 
-        public void SetString(int ordinal, string value)
+        public void SetShort(int ordinal, short? value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetInt(int ordinal, int value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetInt(int ordinal, int? value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetLong(int ordinal, long value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetLong(int ordinal, long? value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetDecimal(int ordinal, decimal value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetDecimal(int ordinal, decimal? value)
+        {
+            throw new NotImplementedException();
+        }
+        public void SetDouble(int ordinal, double? value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetDouble(int ordinal, double value)
         {
             throw new NotImplementedException();
         }
@@ -99,9 +139,16 @@ namespace StoredProcedurePlus.Net.EntityManagers
             throw new NotImplementedException();
         }
 
-        public void SetInt(int ordinal, int? value)
+        public void SetDateTime(int ordinal, DateTime? dateTime)
         {
             throw new NotImplementedException();
         }
+
+        public void SetString(int ordinal, string value)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

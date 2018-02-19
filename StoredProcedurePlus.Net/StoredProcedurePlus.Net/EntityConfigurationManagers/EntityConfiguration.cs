@@ -131,7 +131,32 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
 
                 int Ordinal = OrdinalProvider[configuration.PropertyName];
 
-                if (configuration.DataType == typeof(int))
+                if (configuration.DataType == typeof(bool))
+                {
+                    if (fromEntity.IsDBNull(Ordinal))
+                    {
+                        Error.CannotSetNullToNotNullableBooleanProperty(configuration.PropertyName);
+                    }
+                    else
+                    {
+                        BoolTypeConfiguration<S> Configuration = configuration as BoolTypeConfiguration<S>;
+                        Configuration[Instance] = fromEntity.GetBool(Ordinal);
+                    }
+                }
+                else if (configuration.DataType == typeof(bool?))
+                {
+                    if (fromEntity.IsDBNull(Ordinal))
+                    {
+                        BoolTypeNullableConfiguration<S> Configuration = configuration as BoolTypeNullableConfiguration<S>;
+                        Configuration[Instance] = null;
+                    }
+                    else
+                    {
+                        BoolTypeNullableConfiguration<S> Configuration = configuration as BoolTypeNullableConfiguration<S>;
+                        Configuration[Instance] = fromEntity.GetBool(Ordinal);
+                    }
+                }
+                else if (configuration.DataType == typeof(int))
                 {
                     if (fromEntity.IsDBNull(Ordinal))
                     {
@@ -154,6 +179,31 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
                     {
                         IntegerTypeNullableConfiguration<S> Configuration = configuration as IntegerTypeNullableConfiguration<S>;
                         Configuration[Instance] = fromEntity.GetInt(Ordinal);
+                    }
+                }
+                else if (configuration.DataType == typeof(long))
+                {
+                    if (fromEntity.IsDBNull(Ordinal))
+                    {
+                        Error.CannotSetNullToNotNullableLongProperty(configuration.PropertyName);
+                    }
+                    else
+                    {
+                        LongTypeConfiguration<S> Configuration = configuration as LongTypeConfiguration<S>;
+                        Configuration[Instance] = fromEntity.GetLong(Ordinal);
+                    }
+                }
+                else if (configuration.DataType == typeof(long?))
+                {
+                    if (fromEntity.IsDBNull(Ordinal))
+                    {
+                        LongTypeNullableConfiguration<S> Configuration = configuration as LongTypeNullableConfiguration<S>;
+                        Configuration[Instance] = null;
+                    }
+                    else
+                    {
+                        LongTypeNullableConfiguration<S> Configuration = configuration as LongTypeNullableConfiguration<S>;
+                        Configuration[Instance] = fromEntity.GetLong(Ordinal);
                     }
                 }
                 else if (configuration.DataType == typeof(string))
@@ -199,6 +249,19 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
                         Configuration[Instance] = fromEntity.GetDouble(Ordinal);
                     }
                 }
+                else if (configuration.DataType == typeof(double?))
+                {
+                    if (fromEntity.IsDBNull(Ordinal))
+                    {
+                        DoubleTypeNullableConfiguration<S> Configuration = configuration as DoubleTypeNullableConfiguration<S>;
+                        Configuration[Instance] = null;
+                    }
+                    else
+                    {
+                        DoubleTypeNullableConfiguration<S> Configuration = configuration as DoubleTypeNullableConfiguration<S>;
+                        Configuration[Instance] = fromEntity.GetDouble(Ordinal);
+                    }
+                }
                 else if (configuration.DataType == typeof(decimal))
                 {
                     if (fromEntity.IsDBNull(Ordinal))
@@ -211,6 +274,19 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
                         Configuration[Instance] = fromEntity.GetDecimal(Ordinal);
                     }
                 }
+                else if (configuration.DataType == typeof(decimal?))
+                {
+                    if (fromEntity.IsDBNull(Ordinal))
+                    {
+                        DecimalTypeNullableConfiguration<S> Configuration = configuration as DecimalTypeNullableConfiguration<S>;
+                        Configuration[Instance] = null;
+                    }
+                    else
+                    {
+                        DecimalTypeNullableConfiguration<S> Configuration = configuration as DecimalTypeNullableConfiguration<S>;
+                        Configuration[Instance] = fromEntity.GetDecimal(Ordinal);
+                    }
+                }
                 else if (configuration.DataType == typeof(DateTime))
                 {
                     if (fromEntity.IsDBNull(Ordinal))
@@ -220,6 +296,19 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
                     else
                     {
                         DateTimeTypeConfiguration<S> Configuration = configuration as DateTimeTypeConfiguration<S>;
+                        Configuration[Instance] = fromEntity.GetDate(Ordinal);
+                    }
+                }
+                else if (configuration.DataType == typeof(DateTime?))
+                {
+                    if (fromEntity.IsDBNull(Ordinal))
+                    {
+                        DateTimeTypeNullableConfiguration<S> Configuration = configuration as DateTimeTypeNullableConfiguration<S>;
+                        Configuration[Instance] = null;
+                    }
+                    else
+                    {
+                        DateTimeTypeNullableConfiguration<S> Configuration = configuration as DateTimeTypeNullableConfiguration<S>;
                         Configuration[Instance] = fromEntity.GetDate(Ordinal);
                     }
                 }
@@ -237,8 +326,17 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
                 PropertyConfiguration configuration = Configurations[i];
 
                 int Ordinal = OrdinalProvider[configuration.PropertyName];
-
-                if (configuration.DataType == typeof(int))
+                if (configuration.DataType == typeof(bool))
+                {
+                    BoolTypeConfiguration<S> Configuration = configuration as BoolTypeConfiguration<S>;
+                    toEntity.SetBool(Ordinal, Configuration[Instance]);
+                }
+                else if (configuration.DataType == typeof(bool?))
+                {
+                    BoolTypeNullableConfiguration<S> Configuration = configuration as BoolTypeNullableConfiguration<S>;
+                    toEntity.SetBool(Ordinal, Configuration[Instance]);
+                }
+                else if (configuration.DataType == typeof(int))
                 {
                     IntegerTypeConfiguration<S> Configuration = configuration as IntegerTypeConfiguration<S>;
                     toEntity.SetInt(Ordinal, Configuration[Instance]);
@@ -247,6 +345,16 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
                 {
                     IntegerTypeNullableConfiguration<S> Configuration = configuration as IntegerTypeNullableConfiguration<S>;
                     toEntity.SetInt(Ordinal, Configuration[Instance]);
+                }
+                if (configuration.DataType == typeof(long))
+                {
+                    LongTypeConfiguration<S> Configuration = configuration as LongTypeConfiguration<S>;
+                    toEntity.SetLong(Ordinal, Configuration[Instance]);
+                }
+                else if (configuration.DataType == typeof(long?))
+                {
+                    LongTypeNullableConfiguration<S> Configuration = configuration as LongTypeNullableConfiguration<S>;
+                    toEntity.SetLong(Ordinal, Configuration[Instance]);
                 }
                 else if (configuration.DataType == typeof(string))
                 {
@@ -258,14 +366,29 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
                     DoubleTypeConfiguration<S> Configuration = configuration as DoubleTypeConfiguration<S>;
                     toEntity.SetDouble(Ordinal, Configuration[Instance]);
                 }
+                else if (configuration.DataType == typeof(double?))
+                {
+                    DoubleTypeNullableConfiguration<S> Configuration = configuration as DoubleTypeNullableConfiguration<S>;
+                    toEntity.SetDouble(Ordinal, Configuration[Instance]);
+                }
                 else if (configuration.DataType == typeof(decimal))
                 {
                     DecimalTypeConfiguration<S> Configuration = configuration as DecimalTypeConfiguration<S>;
                     toEntity.SetDecimal(Ordinal, Configuration[Instance]);
                 }
+                else if (configuration.DataType == typeof(decimal?))
+                {
+                    DecimalTypeNullableConfiguration<S> Configuration = configuration as DecimalTypeNullableConfiguration<S>;
+                    toEntity.SetDecimal(Ordinal, Configuration[Instance]);
+                }
                 else if (configuration.DataType == typeof(DateTime))
                 {
                     DateTimeTypeConfiguration<S> Configuration = configuration as DateTimeTypeConfiguration<S>;
+                    toEntity.SetDateTime(Ordinal, Configuration[Instance]);
+                }
+                else if (configuration.DataType == typeof(DateTime?))
+                {
+                    DateTimeTypeNullableConfiguration<S> Configuration = configuration as DateTimeTypeNullableConfiguration<S>;
                     toEntity.SetDateTime(Ordinal, Configuration[Instance]);
                 }
             }
@@ -274,7 +397,18 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
         #endregion
 
         #region Public
-
+        public BoolTypeConfiguration<S> Maps(Expression<Func<S, bool>> memberSelector)
+        {
+            BoolTypeConfiguration<S> Configuration = new BoolTypeConfiguration<S>(memberSelector);
+            AddMapping(Configuration);
+            return Configuration;
+        }
+        public BoolTypeNullableConfiguration<S> Maps(Expression<Func<S, bool?>> memberSelector)
+        {
+            BoolTypeNullableConfiguration<S> Configuration = new BoolTypeNullableConfiguration<S>(memberSelector);
+            AddMapping(Configuration);
+            return Configuration;
+        }
         public IntegerTypeConfiguration<S> Maps(Expression<Func<S, int>> memberSelector)
         {
             IntegerTypeConfiguration<S> Configuration = new IntegerTypeConfiguration<S>(memberSelector);
@@ -284,6 +418,18 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
         public IntegerTypeNullableConfiguration<S> Maps(Expression<Func<S, int?>> memberSelector)
         {
             IntegerTypeNullableConfiguration<S> Configuration = new IntegerTypeNullableConfiguration<S>(memberSelector);
+            AddMapping(Configuration);
+            return Configuration;
+        }
+        public LongTypeConfiguration<S> Maps(Expression<Func<S, long>> memberSelector)
+        {
+            LongTypeConfiguration<S> Configuration = new LongTypeConfiguration<S>(memberSelector);
+            AddMapping(Configuration);
+            return Configuration;
+        }
+        public LongTypeNullableConfiguration<S> Maps(Expression<Func<S, long?>> memberSelector)
+        {
+            LongTypeNullableConfiguration<S> Configuration = new LongTypeNullableConfiguration<S>(memberSelector);
             AddMapping(Configuration);
             return Configuration;
         }
@@ -316,7 +462,13 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
             return Configuration;
         }
 
-        
+        public DateTimeTypeNullableConfiguration<S> Maps(Expression<Func<S, DateTime?>> memberSelector)
+        {
+            DateTimeTypeNullableConfiguration<S> Configuration = new DateTimeTypeNullableConfiguration<S>(memberSelector);
+            AddMapping(Configuration);
+            return Configuration;
+        }
+
         #endregion
     }
 }

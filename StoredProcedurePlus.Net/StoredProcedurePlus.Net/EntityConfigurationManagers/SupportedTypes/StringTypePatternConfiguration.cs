@@ -50,7 +50,7 @@ namespace StoredProcedurePlus.Net.EntityConfigurationManagers.SupportedTypes
         }
 
 
-        string StringPattern;
+        string StringPattern=null;
         public StringTypePatternConfiguration<S> Pattern(string regX)
         {
             StringPattern = regX;
@@ -75,6 +75,18 @@ namespace StoredProcedurePlus.Net.EntityConfigurationManagers.SupportedTypes
         {
             StringPattern = @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
                               @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
+            return this;
+        }
+
+        public StringTypePatternConfiguration<S> WebSite()
+        {
+            StringPattern = @"(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?";
+            return this;
+        }
+
+        public StringTypePatternConfiguration<S> FtpSite()
+        {
+            StringPattern = @"(ftp):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?";
             return this;
         }
     }

@@ -66,15 +66,16 @@ namespace StoredProcedurePlus.Net.EntityManagers
             }
         }
 
+        #region Getters
 
-        public decimal GetDecimal(int ordinal)
+        public bool GetBool(int ordinal)
         {
-            return decimal.Parse(Parameters[ordinal].Item2.Value.ToString());
+            return bool.Parse(Parameters[ordinal].Item2.Value.ToString());
         }
 
-        public double GetDouble(int ordinal)
+        public short GetShort(int ordinal)
         {
-            return double.Parse(Parameters[ordinal].Item2.Value.ToString());
+            return short.Parse(Parameters[ordinal].Item2.Value.ToString());
         }
 
         public int GetInt(int ordinal)
@@ -87,14 +88,14 @@ namespace StoredProcedurePlus.Net.EntityManagers
             return long.Parse(Parameters[ordinal].Item2.Value.ToString());
         }
 
-        public short GetShort(int ordinal)
+        public decimal GetDecimal(int ordinal)
         {
-            return short.Parse(Parameters[ordinal].Item2.Value.ToString());
+            return decimal.Parse(Parameters[ordinal].Item2.Value.ToString());
         }
 
-        public string GetString(int ordinal)
+        public double GetDouble(int ordinal)
         {
-            return Parameters[ordinal].Item2.Value.ToString();
+            return double.Parse(Parameters[ordinal].Item2.Value.ToString());
         }
 
         public DateTime GetDate(int ordinal)
@@ -102,20 +103,54 @@ namespace StoredProcedurePlus.Net.EntityManagers
             return DateTime.Parse(Parameters[ordinal].Item2.Value.ToString());
         }
 
-        public void SetDecimal(int ordinal, decimal value)
+        public string GetString(int ordinal)
+        {
+            return Parameters[ordinal].Item2.Value.ToString();
+        }
+
+        #endregion
+
+        #region Setters
+
+        public void SetBool(int ordinal, bool value)
         {
             Parameters[ordinal].Item2.Value = value;
         }
 
-        public void SetDouble(int ordinal, double value)
+        public void SetBool(int ordinal, bool? value)
+        {
+            if (value.HasValue)
+            {
+                Parameters[ordinal].Item2.Value = value.Value;
+            }
+            else
+            {
+                Parameters[ordinal].Item2.Value = DBNull.Value;
+            }
+        }
+
+        public void SetShort(int ordinal, short value)
         {
             Parameters[ordinal].Item2.Value = value;
+        }
+
+        public void SetShort(int ordinal, short? value)
+        {
+            if (value.HasValue)
+            {
+                Parameters[ordinal].Item2.Value = value.Value;
+            }
+            else
+            {
+                Parameters[ordinal].Item2.Value = DBNull.Value;
+            }
         }
 
         public void SetInt(int ordinal, int value)
         {
             Parameters[ordinal].Item2.Value = value;
         }
+
         public void SetInt(int ordinal, int? value)
         {
             if (value.HasValue)
@@ -133,9 +168,67 @@ namespace StoredProcedurePlus.Net.EntityManagers
             Parameters[ordinal].Item2.Value = value;
         }
 
-        public void SetShort(int ordinal, short value)
+        public void SetLong(int ordinal, long? value)
+        {
+            if (value.HasValue)
+            {
+                Parameters[ordinal].Item2.Value = value.Value;
+            }
+            else
+            {
+                Parameters[ordinal].Item2.Value = DBNull.Value;
+            }
+        }
+
+        public void SetDecimal(int ordinal, decimal value)
         {
             Parameters[ordinal].Item2.Value = value;
+        }
+
+        public void SetDecimal(int ordinal, decimal? value)
+        {
+            if (value.HasValue)
+            {
+                Parameters[ordinal].Item2.Value = value.Value;
+            }
+            else
+            {
+                Parameters[ordinal].Item2.Value = DBNull.Value;
+            }
+        }
+
+        public void SetDouble(int ordinal, double value)
+        {
+            Parameters[ordinal].Item2.Value = value;
+        }
+
+        public void SetDouble(int ordinal, double? value)
+        {
+            if (value.HasValue)
+            {
+                Parameters[ordinal].Item2.Value = value.Value;
+            }
+            else
+            {
+                Parameters[ordinal].Item2.Value = DBNull.Value;
+            }
+        }
+
+        public void SetDateTime(int ordinal, DateTime value)
+        {
+            Parameters[ordinal].Item2.Value = value;
+        }
+
+        public void SetDateTime(int ordinal, DateTime? value)
+        {
+            if (value.HasValue)
+            {
+                Parameters[ordinal].Item2.Value = value.Value;
+            }
+            else
+            {
+                Parameters[ordinal].Item2.Value = DBNull.Value;
+            }
         }
 
         public void SetString(int ordinal, string value)
@@ -143,9 +236,6 @@ namespace StoredProcedurePlus.Net.EntityManagers
             Parameters[ordinal].Item2.Value = value ?? (object)DBNull.Value;
         }
 
-        public void SetDateTime(int ordinal, DateTime value)
-        {
-            Parameters[ordinal].Item2.Value = value;
-        }
+        #endregion
     }
 }

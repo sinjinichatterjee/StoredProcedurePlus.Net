@@ -44,6 +44,23 @@ namespace StoredProcedurePlus.Net.EntityConfigurationManagers.SupportedTypes
                     if (Array.Exists<string>(AllowedValuesExcept, v => v.Equals(value)))
                         Error.ValueNotAllowedError(PropertyName, value, AllowedValuesExcept);
                 }
+                
+                if(IsTrim)
+                {
+                    value = value.Trim();
+                }
+                else
+                {
+                    if(IsLTrim)
+                    {
+                        value = value.TrimStart();
+                    }
+
+                    if (IsRTrim)
+                    {
+                        value = value.TrimEnd();
+                    }
+                }
             }
 
             base.ValidateAndSet(value);
@@ -104,5 +121,25 @@ namespace StoredProcedurePlus.Net.EntityConfigurationManagers.SupportedTypes
             return (StringTypePatternConfiguration<S>)this;
         }
 
+        internal bool IsTrim = false;
+        public StringTypeConfiguration<S> Trim()
+        {
+            IsTrim = true;
+            return this;
+        }
+
+        internal bool IsLTrim = false;
+        public StringTypeConfiguration<S> LTrim()
+        {
+            IsLTrim = true;
+            return this;
+        }
+
+        internal bool IsRTrim = false;
+        public StringTypeConfiguration<S> RTrim()
+        {
+            IsRTrim = true;
+            return this;
+        }
     }
 }

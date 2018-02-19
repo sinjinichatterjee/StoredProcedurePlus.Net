@@ -7,7 +7,7 @@ namespace StoredProcedurePlus.Net.UnitTestEntities.StoredProcedures
         protected override void Setup(ProcedureConfiguration<School> configuration)
         {
             configuration.ProcedureName = "SomeSPName";
-            configuration.Input.Maps(v => v.SchoolId).Max(200).HasParameterName("Hamba");
+            configuration.Input.Maps(v => v.SchoolId).Max(2).HasParameterName("Hamba");
             configuration.Input.Maps(v => v.SchoolName).Required();
 
             //configuration.Output<School>.Maps(v => v.SchoolName).Required();

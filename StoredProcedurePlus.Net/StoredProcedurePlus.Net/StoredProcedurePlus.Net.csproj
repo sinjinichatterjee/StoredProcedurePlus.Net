@@ -53,8 +53,15 @@
     <Compile Include="ConnectionManagers\ConnectionScope.cs" />
     <Compile Include="ConnectionManagers\ConnectionFactory.cs" />
     <Compile Include="EntityConfigurationManagers\Core\EntityAccessor.cs" />
+    <Compile Include="EntityConfigurationManagers\SupportedTypes\BoolTypeConfiguration.cs" />
+    <Compile Include="EntityConfigurationManagers\SupportedTypes\BoolTypeNullableConfiguration.cs" />
     <Compile Include="EntityConfigurationManagers\SupportedTypes\DateTimeTypeConfiguration.cs" />
+    <Compile Include="EntityConfigurationManagers\SupportedTypes\DateTimeTypeNullableConfiguration.cs" />
+    <Compile Include="EntityConfigurationManagers\SupportedTypes\DecimalTypeNullableConfiguration.cs" />
+    <Compile Include="EntityConfigurationManagers\SupportedTypes\DoubleTypeNullableConfiguration.cs" />
     <Compile Include="EntityConfigurationManagers\SupportedTypes\IntegerTypeNullableConfiguration.cs" />
+    <Compile Include="EntityConfigurationManagers\SupportedTypes\LongTypeConfiguration.cs" />
+    <Compile Include="EntityConfigurationManagers\SupportedTypes\LongTypeNullableConfiguration.cs" />
     <Compile Include="EntityConfigurationManagers\SupportedTypes\StringTypePatternConfiguration.cs" />
     <Compile Include="EntityManagers\DbDataEntityAdapter.cs" />
     <Compile Include="EntityManagers\IDataEntityAdapter.cs" />
@@ -67,7 +74,9 @@
     <Compile Include="EntityConfigurationManagers\SupportedTypes\IntegerTypeConfiguration.cs" />
     <Compile Include="EntityConfigurationManagers\Core\PropertyConfiguration.cs" />
     <Compile Include="EntityConfigurationManagers\SupportedTypes\StringTypeConfiguration.cs" />
+    <Compile Include="ErrorManagers\Boolean.cs" />
     <Compile Include="ErrorManagers\DateTime.cs" />
+    <Compile Include="ErrorManagers\Long.cs" />
     <Compile Include="ErrorManagers\StoredProcedureManager.cs" />
     <Compile Include="ErrorManagers\EntityConfiguration.cs" />
     <Compile Include="ErrorManagers\Decimal.cs" />
