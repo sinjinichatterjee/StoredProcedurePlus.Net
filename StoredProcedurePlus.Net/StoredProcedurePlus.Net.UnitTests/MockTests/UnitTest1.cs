@@ -22,7 +22,8 @@ namespace StoredProcedurePlus.Net.UnitTests.MockTests
 
         private void Sp_OnMockExecution(object sender, MockEventArgs args)
         {
-            long id = args.Input.GetLong(0);
+            long id = args.Input.GetLong(args.Input.GetOrdinal("Id"));
+
             if (id > 0)
             {
                 args.Input.SetBool(args.Input.GetOrdinal("IsEnabled"), true);
