@@ -46,11 +46,13 @@
     <Compile Include="Resource.cs" />
     <Compile Include="School.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Steven_Singer_ADJUSTMENTS.cs" />
     <Compile Include="StoredProcedures\MockSp.cs" />
     <Compile Include="StoredProcedures\MyFirstStoredPocedure.cs" />
     <Compile Include="StoredProcedures\SpResourceSummary.cs" />
     <Compile Include="StoredProcedures\SpResourceSummary2.cs" />
     <Compile Include="StoredProcedures\SpResourceSummaryDetails.cs" />
+    <Compile Include="StoredProcedures\SPSelectAdjustments.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StoredProcedurePlus.Net\StoredProcedurePlus.Net.csproj">

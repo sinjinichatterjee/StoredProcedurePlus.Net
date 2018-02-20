@@ -4,6 +4,8 @@ using EFDrivenSPAccess.DatabaseContext;
 using StoredProcedurePlus.Net.UnitTestEntities;
 using System.Diagnostics;
 using System.Collections.Generic;
+using StoredProcedurePlus.Net.UnitTestEntities.StoredProcedures;
+using System.Linq;
 
 namespace StoredProcedurePlus.Net.UnitTests.EFCodeFirstSPAccess
 {
@@ -56,6 +58,17 @@ namespace StoredProcedurePlus.Net.UnitTests.EFCodeFirstSPAccess
             sw.Stop();
 
             Console.Write(string.Format("Record Retrived : {0} in time : {1}", xxx != null ? xxx.Length : 0, sw.Elapsed.TotalMilliseconds));
+        }
+
+        [TestMethod]
+        public void SelectTest()
+        {
+            SPSelectAdjustments sp = new SPSelectAdjustments();
+            sp.Execute(null);
+
+
+            List<Steven_Singer_ADJUSTMENTS> result =sp.GetResult<Steven_Singer_ADJUSTMENTS>().ToList();
+            Assert.AreEqual(result.Count, 399);
         }
     }
 }

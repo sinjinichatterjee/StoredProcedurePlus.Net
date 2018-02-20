@@ -97,7 +97,10 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
 
                     Configuration.Input.Prepare(adapter);
 
-                    Configuration.Input.Get(input, adapter);
+                    if (adapter.FieldCount > 0)
+                    {
+                        Configuration.Input.Get(input, adapter);
+                    }
 
                     if (Configuration.OutputSets.Any())
                     {
@@ -195,7 +198,10 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
 
                     Configuration.Input.Prepare(adapter);
 
-                    Configuration.Input.Get(input, adapter);
+                    if (adapter.FieldCount > 0)
+                    {
+                        Configuration.Input.Get(input, adapter);
+                    }
 
                     if (Configuration.OutputSets.Any())
                     {

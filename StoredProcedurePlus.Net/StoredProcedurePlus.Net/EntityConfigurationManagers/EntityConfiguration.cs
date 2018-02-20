@@ -351,31 +351,13 @@ namespace StoredProcedurePlus.Net.StoredProcedureManagers
                     if (fromEntity.IsDBNull(Ordinal))
                     {
                         StringTypeConfiguration<S> Configuration = configuration as StringTypeConfiguration<S>;
-
-                        if (Configuration.IsPattern)
-                        {
-                            StringTypePatternConfiguration<S> PatternEnabledConfiguration = configuration as StringTypePatternConfiguration<S>;
-                            PatternEnabledConfiguration[Instance] = null;
-                        }
-                        else
-                        {
-                            Configuration[Instance] = null;
-                        }
+                        Configuration[Instance] = null;
                     }
                     else
                     {
                         StringTypeConfiguration<S> Configuration = configuration as StringTypeConfiguration<S>;
-
-                        if (Configuration.IsPattern)
-                        {
-                            StringTypePatternConfiguration<S> PatternEnabledConfiguration = configuration as StringTypePatternConfiguration<S>;
-                            PatternEnabledConfiguration[Instance] = fromEntity.GetString(Ordinal);
-                        }
-                        else
-                        {
-                            Configuration[Instance] = fromEntity.GetString(Ordinal);
-                        }
-                    }
+                        Configuration[Instance] = fromEntity.GetString(Ordinal);
+                    }               
                 }
             }
         }

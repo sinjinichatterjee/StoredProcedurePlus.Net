@@ -60,5 +60,15 @@ namespace StoredProcedurePlus.Net.ErrorManagers
                 + ", against the pattern : "
                 + stringPattern);
         }
+
+        internal static void PatternMatchingError(string propertyName, string value, string patternName)
+        {
+            throw new InvalidOperationException(
+                "Cannot set given value " + value
+                + " into property : "
+                + propertyName
+                + ", against the pattern : "
+                + patternName);
+        }
     }
 }

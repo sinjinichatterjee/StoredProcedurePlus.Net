@@ -64,7 +64,6 @@
     <Compile Include="EntityConfigurationManagers\SupportedTypes\IntegerTypeNullableConfiguration.cs" />
     <Compile Include="EntityConfigurationManagers\SupportedTypes\LongTypeConfiguration.cs" />
     <Compile Include="EntityConfigurationManagers\SupportedTypes\LongTypeNullableConfiguration.cs" />
-    <Compile Include="EntityConfigurationManagers\SupportedTypes\StringTypePatternConfiguration.cs" />
     <Compile Include="EntityManagers\DbDataEntityAdapter.cs" />
     <Compile Include="EntityManagers\IDataEntityAdapter.cs" />
     <Compile Include="EntityConfigurationManagers\PropertyOrdinalProvider.cs" />
