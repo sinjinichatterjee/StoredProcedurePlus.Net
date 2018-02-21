@@ -2,7 +2,6 @@
 using StoredProcedurePlus.Net.EntityManagers;
 using System;
 using System.Collections.Generic;
-using System.Data;
 
 namespace StoredProcedurePlus.Net.EntityConfigurationManagers
 {

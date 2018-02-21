@@ -240,3 +240,4 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/StoredProcedurePlus.Net/StoredProcedurePlus.Net/nuget

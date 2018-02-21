@@ -1,10 +1,9 @@
 ﻿using StoredProcedurePlus.Net.ConnectionManagers;
-using StoredProcedurePlus.Net.EntityManagers;
 using System.Collections.Generic;
 
 namespace StoredProcedurePlus.Net.StoredProcedureManagers
 {
-    
+
 
     public sealed class ProcedureConfiguration<S> where S : class, new ()
     {
